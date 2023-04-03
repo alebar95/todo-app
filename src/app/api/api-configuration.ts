@@ -1,6 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment.development';
 
 /**
  * Global configuration
@@ -9,7 +10,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class ApiConfiguration {
-  rootUrl: string = 'https://localhost:3000';
+  rootUrl: string = environment.apiUrl;
 }
 
 /**

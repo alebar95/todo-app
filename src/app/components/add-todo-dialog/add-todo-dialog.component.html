@@ -1,0 +1,11 @@
+<h1 mat-dialog-title class="bg-primary">Add new Todo</h1>
+<div mat-dialog-content>
+  <mat-form-field appearance="fill">
+    <mat-label>Title</mat-label>
+    <input matInput [(ngModel)]="todoTitle" placeholder="Insert todo title">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions class="flex justify-content-end">
+  <button mat-button [mat-dialog-close]="null">Cancel</button>
+  <button mat-button [mat-dialog-close]="todoTitle" [class.bg-primary]="todoTitle" [class.surface-300]="!todoTitle"  [disabled]="!todoTitle" >Add</button>
+</div>

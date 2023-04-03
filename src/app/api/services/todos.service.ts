@@ -24,9 +24,9 @@ export class TodosService extends BaseService {
   }
 
   /**
-   * Path part for operation todosGet
+   * Path part for operation getTodos
    */
-  static readonly TodosGetPath = '/todos';
+  static readonly GetTodosPath = '/todos';
 
   /**
    * Returns all todos from the store.
@@ -34,17 +34,17 @@ export class TodosService extends BaseService {
    * Returns all todos from the store
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `todosGet()` instead.
+   * To access only the response body, use `getTodos()` instead.
    *
    * This method doesn't expect any request body.
    */
-  todosGet$Response(params?: {
+  getTodos$Response(params?: {
   },
   context?: HttpContext
 
 ): Observable<StrictHttpResponse<Array<TodoDto>>> {
 
-    const rb = new RequestBuilder(this.rootUrl, TodosService.TodosGetPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, TodosService.GetTodosPath, 'get');
     if (params) {
     }
 
@@ -66,17 +66,17 @@ export class TodosService extends BaseService {
    * Returns all todos from the store
    *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `todosGet$Response()` instead.
+   * To access the full response (for headers, for example), `getTodos$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  todosGet(params?: {
+  getTodos(params?: {
   },
   context?: HttpContext
 
 ): Observable<Array<TodoDto>> {
 
-    return this.todosGet$Response(params,context).pipe(
+    return this.getTodos$Response(params,context).pipe(
       map((r: StrictHttpResponse<Array<TodoDto>>) => r.body as Array<TodoDto>)
     );
   }
@@ -146,6 +146,86 @@ export class TodosService extends BaseService {
 ): Observable<TodoDto> {
 
     return this.addTodo$Response(params,context).pipe(
+      map((r: StrictHttpResponse<TodoDto>) => r.body as TodoDto)
+    );
+  }
+
+  /**
+   * Path part for operation modifyTodo
+   */
+  static readonly ModifyTodoPath = '/todos/{id}';
+
+  /**
+   * Modify a todo.
+   *
+   * Modify a todo
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `modifyTodo()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  modifyTodo$Response(params: {
+
+    /**
+     * id of the todo to be modified
+     */
+    id: number;
+
+    /**
+     * Modify an existing todo in the store
+     */
+    body: SaveTodoDto
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<TodoDto>> {
+
+    const rb = new RequestBuilder(this.rootUrl, TodosService.ModifyTodoPath, 'put');
+    if (params) {
+      rb.path('id', params.id, {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<TodoDto>;
+      })
+    );
+  }
+
+  /**
+   * Modify a todo.
+   *
+   * Modify a todo
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `modifyTodo$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  modifyTodo(params: {
+
+    /**
+     * id of the todo to be modified
+     */
+    id: number;
+
+    /**
+     * Modify an existing todo in the store
+     */
+    body: SaveTodoDto
+  },
+  context?: HttpContext
+
+): Observable<TodoDto> {
+
+    return this.modifyTodo$Response(params,context).pipe(
       map((r: StrictHttpResponse<TodoDto>) => r.body as TodoDto)
     );
   }
