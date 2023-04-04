@@ -1,27 +1,31 @@
 # TodoApp
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.1.6.
+Progetto generato con Angular CLI versione 15.1.6.
 
-## Development server
+Lo stato globale dell'applicazione è gestito tramite ngRx: https://ngrx.io/ 
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Ho applicato i componenti fondamentali di ngrx come Store, Actions, Reducers, Selector e Effects.
 
-## Code scaffolding
+Le api BE sono state "mockate" attraverso JSONServer: https://github.com/typicode/json-server. Per poterle chiamare è necessario eseguire un server all'interno di un container docker come indicato nel repo: https://github.com/alebar95/mock-todos-server
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+È stato realizzato uno swagger conforme allo standard Open API, attraverso i tool swagger inspector https://inspector.swagger.io/builder e swaggerHub https://app.swaggerhub.com. Tale swagger si trova nel file todos-api.json nella root del progetto.
 
-## Build
+Tutto il codice relativo ai data models e ai servizi che effetuano le chiamate api al BE, è stato autogenerato a partite dal suddetto swagger attraverso il pacchetto https://www.npmjs.com/package/ng-openapi-gen. Per generare il codice basta eseguire lo script api indicato nel file package.json digitando il comando: npm run api-gen
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+È possibile creare un'immagine Docker a partire dal Dockerfile, il quale è stato configurato per poter servire l'app all'interno di un web server nginx.
+Per eseguire tale server in un container custom:
 
-## Running unit tests
+Clonare il progetto e portarsi nella root del progetto, dove è presente il Dockerfile ed eseguire il seguente comando da terminale:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+docker build . -t todo-app
 
-## Running end-to-end tests
+Una volta che l'immagine è stata create, eseguirla in in un container con il seguente comando:
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+docker run -d -p 8080:80 --name todo-app todo-app
 
-## Further help
+aprire il browser all'indirizzo http://localhost:8080 e verificare che l'app venga eseguita correttamente.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+
+
+
