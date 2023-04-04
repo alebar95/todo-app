@@ -17,13 +17,13 @@ Per eseguire tale server in un container custom:
 
 Clonare il progetto e portarsi nella root del progetto, dove è presente il Dockerfile ed eseguire il seguente comando da terminale:
 
-docker build . -t todo-app
+  docker build . -t todo-app
 
-Una volta che l'immagine è stata create, eseguirla in in un container con il seguente comando:
+Una volta che l'immagine è stata creata, eseguirla in in un container con il seguente comando:
 
-docker run -d -p 8080:80 --name todo-app todo-app
+  docker run -d -p 8080:80 --name todo-app todo-app
 
-aprire il browser all'indirizzo http://localhost:8080 e verificare che l'app venga eseguita correttamente.
+Aprire il browser all'indirizzo http://localhost:8080 e verificare che l'app venga eseguita correttamente.
 
 
 
