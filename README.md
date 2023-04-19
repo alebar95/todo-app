@@ -6,7 +6,7 @@ Lo stato globale dell'applicazione è gestito tramite ngRx: https://ngrx.io/
 
 Ho applicato i componenti fondamentali di ngrx come Store, Actions, Reducers, Selector e Effects.
 
-Le api BE sono state "mockate" attraverso JSONServer: https://github.com/typicode/json-server. Per poterle chiamare è necessario eseguire un server all'interno di un container docker come indicato nel repo: https://github.com/alebar95/mock-todos-server
+Le api BE sono state "mockate" attraverso JSONServer: https://github.com/typicode/json-server. Per poterle chiamare è necessario eseguire un server all'interno di un container docker come indicato nel repo: https://github.com/alebar95/mock-todos-server, (è possibile ancghe eseguire il container docker in un cluster kubernetes come indicato nel suddeto repo).
 
 È stato realizzato uno swagger conforme allo standard Open API, attraverso i tool swagger inspector https://inspector.swagger.io/builder e swaggerHub https://app.swaggerhub.com. Tale swagger si trova nel file todos-api.json nella root del progetto.
 
@@ -25,7 +25,22 @@ Una volta che l'immagine è stata creata, eseguirla in in un container con il se
 
 Aprire il browser all'indirizzo http://localhost:8080 e verificare che l'app venga eseguita correttamente.
 
+All'interno della root del progetto è stato aggiunto il file deployment.yaml che contiene la definizione dell'oggetto kubernetes deployment per poter eseguire l'immagine Docker todo-app all'interno di un cluster Kubernetes locale, eseguito dal Docker Desktop.
 
+All'interno del file deployment.yaml è presente anche la definizione yaml di un Service che consente di esporre l’applicazione per l’accesso dall’esterno del cluster kubernetes.
 
+Abilitare Kubernetes nel Docker Desktop eseguendo quindi un cluster avente un unico nodo docker-desktop.
 
+Verificare che il nodo docker-desktop sia stato creato lanciando il comando:
 
+  kubectl get nodes
+
+All'interno della root del progetto lanciare il comando:
+
+  kubectl apply -f deployment.yaml
+
+Verificare la corretta esecuzione dell'app nel cluster kubernetes lanciando il comando: 
+
+  kubectl get pods
+
+A questo punto si può accedere alla web app da browser all'indirizzo http://localhost:31000 , la porta 31000 è stata settata nella definizione del service nel file deployment.yaml
