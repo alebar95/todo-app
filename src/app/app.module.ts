@@ -12,6 +12,9 @@ import { EffectsModule } from '@ngrx/effects';
 import { todosReducer } from './state/todos.reducers';
 import { TodosEffects } from './state/todos-effects';
 import { HttpClientModule } from '@angular/common/http';
+import { APP_INITIALIZER } from '@angular/core';
+import { initializeKeycloak } from './init/init/keycloak-init.factory';
+import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 
 @NgModule({
   declarations: [
@@ -26,10 +29,19 @@ import { HttpClientModule } from '@angular/common/http';
     MaterialModule,
     FormsModule,
     StoreModule.forRoot({state: todosReducer}),
+    KeycloakAngularModule,
     HttpClientModule,
     EffectsModule.forRoot([TodosEffects])
   ],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeKeycloak,
+      multi: true,
+      deps: [KeycloakService]
+
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

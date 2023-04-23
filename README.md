@@ -44,3 +44,19 @@ Verificare la corretta esecuzione dell'app nel cluster kubernetes lanciando il c
   kubectl get pods
 
 A questo punto si può accedere alla web app da browser all'indirizzo http://localhost:31000 , la porta 31000 è stata settata nella definizione del service nel file deployment.yaml
+
+L'autenticazione è gestita con l'iam Keycloak
+
+Per il corretto funzionamento della web app occore fare prima quanto indicato in https://github.com/alebar95/mock-todos-server e successivamente:
+  
+  
+      - Accedere all'admin console del server keycloak all'indirizzo http://localhost:8180/auth
+      - Scegliere il realm "todos-realm";
+      - Crere un client associato alla web app angular, chiamandolo "todo-app";
+      - Settare Acces-Type a "public";
+      - Inserire come redirect urls:
+                "http://localhost:4200/*"
+                "http://localhost:31000/*"
+
+
+

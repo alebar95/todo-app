@@ -1,15 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TodosListComponent } from './pages/todos-list/todos-list.component';
+import { AuthGuard } from './guard/auth.guard';
 
 const routes: Routes = [
   {
-    path: 'todos',
-    component: TodosListComponent
+    path: 'my-todos',
+    component: TodosListComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: '',
-    redirectTo: 'todos',
+    redirectTo: 'my-todos',
     pathMatch: 'full'
   },
   {
